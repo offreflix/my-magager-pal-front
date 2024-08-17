@@ -11,6 +11,17 @@ interface SignInResponse {
   data: { access_token: string }
 }
 
+interface User {
+  data: {
+    id: number
+    name: string
+    email: string
+    username: string
+    updatedAt: string
+    createdAt: string
+  }
+}
+
 const AuthService = {
   signIn: async (data: SignInParams) => {
     const response: SignInResponse = await api.post('/auth/login', data)
@@ -26,6 +37,12 @@ const AuthService = {
 
   signOut: async () => {
     return api.post('/auth/logout')
+  },
+
+  getProfile: async () => {
+    const response: User = await api.get('/auth/profile')
+    console.log('response', response)
+    return response
   },
 }
 

@@ -26,18 +26,17 @@ import { useMutation } from '@tanstack/react-query'
 import { toast } from 'sonner'
 import { LoadingButton } from '@/components/loading-button'
 import { AxiosError } from 'axios'
+import { useContext } from 'react'
+import { AuthContext } from '@/contexts/AuthContext'
 
 export function LoginForm() {
-  const mutation = useMutation<any, AxiosError, z.infer<typeof schema>>({
-    mutationFn: AuthService.signIn,
-    onSuccess: (response) => {
-      console.log(response.data.access_token)
+  const { signIn } = useContext(AuthContext)
 
-      toast.success('Login successful')
-    },
+  const mutation = useMutation<any, AxiosError, z.infer<typeof schema>>({
+    mutationFn: signIn,
+    onSuccess: (response) => {},
     onError: (e) => {
       const error = e as AxiosError<{ message: string }>
-      console.error(error?.response?.data?.message)
       toast.error(error.message)
     },
   })
