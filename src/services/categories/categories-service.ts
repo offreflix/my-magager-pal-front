@@ -5,6 +5,9 @@ interface findAllResponse {
   data: Array<{
     id: number
     name: string
+    _count: {
+      transactions: number
+    }
     createdAt: Date
     updatedAt: Date
   }>
@@ -16,7 +19,9 @@ const CategoriesService = {
 
     const response: findAllResponse = await api.get('/categories')
 
-    return response
+    console.log(response)
+
+    return response.data
   },
 }
 
