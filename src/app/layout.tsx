@@ -7,6 +7,8 @@ import { ThemeProvider } from '@/components/theme-provider'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { queryClient } from '@/lib/react-query'
 import { Toaster } from '@/components/ui/sonner'
+import { AuthProvider } from '@/contexts/AuthContext'
+import { TooltipProvider } from '@/components/ui/tooltip'
 
 const fontSans = FontSans({
   subsets: ['latin'],
@@ -24,24 +26,28 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
+    <html suppressHydrationWarning lang="en">
       <body
         className={cn(
           'min-h-screen bg-background font-sans antialiased',
           fontSans.variable
         )}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <QueryClientProvider client={queryClient}>
-            <Toaster richColors closeButton />
-            {children}
-          </QueryClientProvider>
-        </ThemeProvider>
+        <AuthProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <QueryClientProvider client={queryClient}>
+              <TooltipProvider delayDuration={0}>
+                <Toaster richColors closeButton />
+                {children}
+              </TooltipProvider>
+            </QueryClientProvider>
+          </ThemeProvider>
+        </AuthProvider>
       </body>
     </html>
   )
